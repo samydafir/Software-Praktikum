@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DataVisualizer
+Bundle-SymbolicName: DataVisualizer;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ClassPath: .,
+ lib/org.eclipse.draw2d_3.5.0.jar,
+ lib/org.eclipse.nebula.visualization.xygraph_2.1.0.201609231530.jar
