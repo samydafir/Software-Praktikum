@@ -1,6 +1,7 @@
 package datavisualizer.views;
 
 
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.part.*;
@@ -49,6 +50,7 @@ public class SampleView extends ViewPart {
 	private Action action1;
 	private Action action2;
 	private Action doubleClickAction;
+	private Canvas canvas;
 	 
 
 	class ViewLabelProvider extends LabelProvider implements ITableLabelProvider {
@@ -74,6 +76,8 @@ public class SampleView extends ViewPart {
 	 * to create the viewer and initialize it.
 	 */
 	public void createPartControl(Composite parent) {
+		canvas = new Canvas(parent, 1);
+		
 		viewer = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -179,12 +183,9 @@ public class SampleView extends ViewPart {
 
 
 	public void test() {
-		final Shell shell = new Shell();
-		shell.setSize(300, 250);
-		shell.open();
-
+		
 		// use LightweightSystem to create the bridge between SWT and draw2D
-		final LightweightSystem lws = new LightweightSystem(shell);
+		final LightweightSystem lws = new LightweightSystem(canvas);
 
 		// create a new XY Graph.
 		IXYGraph xyGraph = new XYGraph();
@@ -209,7 +210,7 @@ public class SampleView extends ViewPart {
 		xyGraph.addTrace(trace);
 
 		Display display = Display.getDefault();
-		while (!shell.isDisposed()) {
+		while (!canvas.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
