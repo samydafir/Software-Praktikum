@@ -55,9 +55,7 @@ public class ProcessStateGraph extends ViewPart {
 	
 	public void showGraph() {
 		
-		// use LightweightSystem to create the bridge between SWT and draw2D
 		lws = new LightweightSystem(mainCanvas);
-
 		
 		// create a new XY Graph.
 		IXYGraph xyGraph = new XYGraph();
