@@ -13,11 +13,11 @@ public class XmlParser {
 	private Node root;
 	Pattern pattern;
 	
-	public XmlParser(String inputPath, String nodeSelectionSpecifier) throws ParserConfigurationException, SAXException, IOException{
+	public XmlParser(String inputPath, String nodeSelectionRegex) throws ParserConfigurationException, SAXException, IOException{
 		Document xmlDoc = createDoc(inputPath);
 		Element root = xmlDoc.getDocumentElement();
 		this.root = root;
-		pattern = Pattern.compile("^Core\\_.*$");
+		pattern = Pattern.compile(nodeSelectionRegex);
 		
 		
 	}
