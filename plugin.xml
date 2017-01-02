@@ -12,8 +12,15 @@
             name="Sample View"
             icon="icons/sample.gif"
             category="DataVisualizer"
-            class="datavisualizer.views.SampleView"
+            class="datavisualizer.views.ControlView"
             id="datavisualizer.views.SampleView">
+      </view>
+      <view
+            name="Test"
+            icon="icons/sample.gif"
+            category="DataVisualizer"
+            class="datavisualizer.views.ProcessStateGraph"
+            id="datavisualizer.views.Test">
       </view>
    </extension>
    <extension
