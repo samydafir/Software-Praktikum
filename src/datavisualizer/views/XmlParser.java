@@ -22,25 +22,34 @@ public class XmlParser {
 		
 	}
 
-	public void parse(Node startNode){
-		
-		if(startNode == null){
-			return;
-		}
-		
-		Element element = (Element) startNode;
-		Matcher coreNodeMatcher = pattern.matcher(element.getAttribute("name"));
-		if(coreNodeMatcher.matches()){
-			extractProcesses(startNode);
-		}else if(startNode.getChildNodes().getLength() > 0 ){
-			Node firstChild = startNode.getFirstChild();
-			parse(firstChild);
-			parse(firstChild.getNextSibling());
-		}
+	public void parse(){
+		parseRec(root);
 	}
 	
-	private void extractProcesses(Node parent){
-		//TODO: extract process nodes and info
+	private void parseRec(Node startNode){
+		
+		Node nameAttribute;
+		Matcher coreAttrMatcher;
+		
+		if(startNode.getNodeType() == Node.ELEMENT_NODE){
+			nameAttribute = startNode.getAttributes().getNamedItem("name");
+			if(nameAttribute != null && (coreAttrMatcher = pattern.matcher(nameAttribute.toString())).matches()){
+				System.out.println(coreAttrMatcher.group(1));
+				System.out.println("FOUND " + startNode.getAttributes().getNamedItem("name"));				
+				extractProcesses(startNode, coreAttrMatcher.group(1));
+			}
+
+			if(startNode.hasChildNodes())
+				parseRec(startNode.getFirstChild());
+		}
+		
+		if(startNode.getNextSibling() != null)
+			parseRec(startNode.getNextSibling());
+	}
+	
+	private void extractProcesses(Node parent, String coreName){
+		
+	
 	}
 	
 	
