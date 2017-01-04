@@ -2,8 +2,8 @@ package datavisualizer.views;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -32,6 +32,9 @@ public class Model {
 		for(TaskInfo currTask: xmlParser.getTaskMap().values()){
 			tasks.add(currTask);
 		}
+		Collections.sort(tasks);
+
+		
 		return tasks;
 	}
 

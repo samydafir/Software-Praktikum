@@ -24,7 +24,7 @@ public class ControlView extends ViewPart {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "datavisualizer.views.SampleView";
+	public static final String ID = "datavisualizer.views.Controlview";
 
 	private Model model;
 	private TableViewer viewer;
@@ -76,9 +76,9 @@ public class ControlView extends ViewPart {
 		
 		//TODO:getinputData + layout input data
 		
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.stateGraph");
-		if(stateGraph == null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.stateGraph") instanceof ProcessStateGraph){
-			stateGraph = (ProcessStateGraph) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.stateGraph");
+		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.ProcessStateGraph");
+		if(stateGraph == null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph") instanceof ProcessStateGraph){
+			stateGraph = (ProcessStateGraph) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph");
 			stateGraph.showGraph();
 		}else{
 			//stateGraph.updateGraph();
@@ -144,6 +144,3 @@ public class ControlView extends ViewPart {
 	}
 
 }
-
-
-

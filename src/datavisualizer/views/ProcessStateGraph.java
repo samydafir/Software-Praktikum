@@ -24,7 +24,7 @@ public class ProcessStateGraph extends ViewPart {
 	/**
 	 * The ID of the view as specified by the extension.
 	 */
-	public static final String ID = "datavisualizer.views.Test";
+	public static final String ID = "datavisualizer.views.ProcessStateGraph";
 
 	private ArrayList<Double[]> dataPoints;
 	private Canvas mainCanvas;

@@ -1,6 +1,6 @@
 package datavisualizer.views;
 
-public class TaskInfo {
+public class TaskInfo implements Comparable<TaskInfo>{
 
 	private double id;
 	private double priority;
@@ -35,6 +35,11 @@ public class TaskInfo {
 	
 	public String toString(){
 		return "Core: " + core + " ID: " + id + ", Priority: " + priority;
+	}
+	
+	@Override
+	public int compareTo(TaskInfo t2) {
+		return core.compareTo(t2.getCore());
 	}
 	
 }
