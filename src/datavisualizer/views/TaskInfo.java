@@ -5,8 +5,15 @@ public class TaskInfo {
 	private double id;
 	private double priority;
 	private String core;
+	private String name;
 	
 	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getCore() {
 		return core;
 	}
@@ -29,6 +36,5 @@ public class TaskInfo {
 	public String toString(){
 		return "Core: " + core + " ID: " + id + ", Priority: " + priority;
 	}
-
 	
 }

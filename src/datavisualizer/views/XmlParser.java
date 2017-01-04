@@ -88,6 +88,7 @@ public class XmlParser {
 			}
 			
 			currTask.setCore(currCoreName);
+			currTask.setName(taskName);
 			taskMap.put(taskName, currTask);
 			if(taskNode.getNextSibling() != null)
 				extractProcesses(taskNode.getNextSibling());
