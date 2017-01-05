@@ -11,6 +11,9 @@ import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.TreeSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -30,8 +33,9 @@ public class ControlView extends ViewPart {
 
 	private Model model;
 	private TableViewer viewer;
-	ProcessStateGraph stateGraph;
-
+	private ProcessStateGraph stateGraph;
+	private InputSelection is;
+	private ProcessTable pt;
 
 /**
 	 * The constructor.
@@ -49,10 +53,10 @@ public class ControlView extends ViewPart {
 		RowLayout rl = new RowLayout();
 		parent.setLayout(rl);
 		
-		InputSelection is = new InputSelection(parent);
+		is = new InputSelection(parent);
 		
 		
-		ProcessTable pt = new ProcessTable(parent, 1, model);
+		pt = new ProcessTable(parent, 1, model);
 		viewer = pt.getViewer();
 		
 		createButtons(parent);
@@ -95,14 +99,39 @@ public class ControlView extends ViewPart {
 
 
 	public void handleGraphCreation() throws PartInitException{
-		ArrayList<Double> ids = new ArrayList<>();
+		HashSet<Double> selectedIds = new HashSet<>();
+		TreeSet<TraceInfo> traceInfo = new TreeSet<>();
+		TraceInfo currTrace;
+		HashMap<Double, ArrayList<StateInfo>> stateMap;
+		TaskInfo currTask;
 		
 		final TableItem [] items = viewer.getTable().getItems();
 	    for (int i = 0; i < items.length; ++i) {
-	      if (items[i].getChecked())
-	    	  System.out.println(items[i].getText());
+	      if (items[i].getChecked()){
+	    	  currTask = model.getTaskMap().get(items[i].getText());
+	    	  selectedIds.add(currTask.getId());
+	    	  currTrace = new TraceInfo();
+	    	  currTrace.setId(currTask.getId());
+	    	  currTrace.setCore(currTask.getCore());
+	    	  currTrace.setName(currTask.getName());
+	    	  currTrace.setPriority(currTask.getPriority());
+	    	  traceInfo.add(currTrace);
+	      }
 	    }
 	    
+	    model.parseBinaries("E:\\OneDrive - stud.sbg.ac.at\\University\\WS16\\Software Praktikum\\Software-Praktikum\\data\\Tasks_Core_c0.vdt", selectedIds);
+	    stateMap = model.getStateMap();
+
+	    for(TraceInfo currInfo: traceInfo){
+	    	if(stateMap.containsKey(currInfo.getId())){
+	    		currInfo.setStates(stateMap.get(currInfo.getId()));	    		
+	    	}
+	    }
+
+	    
+	    for(TraceInfo currInfo: traceInfo)
+	    	System.out.println(currInfo.toString());
+	  
 	    
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.ProcessStateGraph");
 		if(stateGraph == null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph") instanceof ProcessStateGraph){

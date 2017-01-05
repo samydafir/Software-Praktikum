@@ -23,7 +23,6 @@ public class XmlParser {
 		this.root = root;
 		pattern = Pattern.compile(nodeSelectionRegex);
 		
-		
 	}
 
 	public void parse(){

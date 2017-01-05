@@ -6,13 +6,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class BinaryParser {
 
-	public HashMap<Double, ArrayList<StateInfo>> parseBinary(String path) throws IOException{
+	private HashMap<Double, ArrayList<StateInfo>> stateMap = new HashMap<>();
+
+	public void parseBinary(String path, Set<Double> selectedIds) throws IOException{
 		
 		DataInputStream input = new DataInputStream(new FileInputStream(path));
-		HashMap<Double, ArrayList<StateInfo>> stateMap = new HashMap<>();
+		
 		int count = 0;
 		double currDouble;
 		StateInfo currStateInfo = null;
@@ -21,27 +24,31 @@ public class BinaryParser {
 			currDouble = Double.longBitsToDouble(Long.reverseBytes(input.readLong()));
 				
 			if(count % 3 == 0){
+				System.out.print("time: " + currDouble + " ");
 				currStateInfo = new StateInfo();
 				currStateInfo.setTimestamp(currDouble);
 			}else if(count % 3 == 1){
+				System.out.print("state: " + currDouble + " ");
 				currStateInfo.setState(currDouble);
 			}else{
-				if (stateMap.containsKey(currDouble)){
-					stateMap.get(currDouble).add(currStateInfo);
-				}else{
-					ArrayList<StateInfo> states = new ArrayList<>();
-					states.add(currStateInfo);
-					stateMap.put(currDouble, states);
-				}	
+				System.out.println("id: " + currDouble);
+				if(selectedIds.contains(currDouble)){
+					if (stateMap.containsKey(currDouble)){
+						stateMap.get(currDouble).add(currStateInfo);
+					}else{
+						ArrayList<StateInfo> states = new ArrayList<>();
+						states.add(currStateInfo);
+						stateMap.put(currDouble, states);
+					}
+				}
 			}
 			count++;
 		}
 		input.close();
-		return stateMap;
 	}
 	
 	
-	public void printMap(HashMap<Double, ArrayList<StateInfo>> stateMap){
+	public void printMap(){
 		for(Entry<Double, ArrayList<StateInfo>> a: stateMap.entrySet()){
 			System.out.print(a.getKey() + "::: ");
 			for(StateInfo b: a.getValue()){
@@ -49,5 +56,9 @@ public class BinaryParser {
 			}
 			System.out.println("---NEW PROCESS---");
 		}
+	}
+	
+	public HashMap<Double, ArrayList<StateInfo>> getStateMap() {
+		return stateMap;
 	}
 }

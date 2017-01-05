@@ -3,6 +3,8 @@ package datavisualizer.views;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -22,8 +24,17 @@ public class Model {
 	
 	public ArrayList<StateInfo> getStates(ArrayList<Double> selectedTasks){
 		return null;
-		
 	}
+	
+
+	public void parseBinaries(String path, Set<Double> selectedIds){
+		try {
+			binaryParser.parseBinary(path, selectedIds);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public ArrayList<TaskInfo> getTaskInfo(){
 		ArrayList<TaskInfo> tasks = new ArrayList<>();
@@ -34,6 +45,14 @@ public class Model {
 
 		
 		return tasks;
+	}
+	
+	public HashMap<String, TaskInfo> getTaskMap(){
+		return xmlParser.getTaskMap();
+	}
+	
+	public HashMap<Double, ArrayList<StateInfo>> getStateMap() {
+		return binaryParser.getStateMap();
 	}
 
 
