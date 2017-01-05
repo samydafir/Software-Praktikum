@@ -5,10 +5,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.part.*;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -47,7 +49,8 @@ public class ControlView extends ViewPart {
 		RowLayout rl = new RowLayout();
 		parent.setLayout(rl);
 		
-		//InputSelection is = new InputSelection(parent);
+		InputSelection is = new InputSelection(parent);
+		
 		
 		ProcessTable pt = new ProcessTable(parent, 1, model);
 		viewer = pt.getViewer();
@@ -92,9 +95,15 @@ public class ControlView extends ViewPart {
 
 
 	public void handleGraphCreation() throws PartInitException{
+		ArrayList<Double> ids = new ArrayList<>();
 		
-		//TODO:getinputData + layout input data
-		
+		final TableItem [] items = viewer.getTable().getItems();
+	    for (int i = 0; i < items.length; ++i) {
+	      if (items[i].getChecked())
+	    	  System.out.println(items[i].getText());
+	    }
+	    
+	    
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.ProcessStateGraph");
 		if(stateGraph == null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph") instanceof ProcessStateGraph){
 			stateGraph = (ProcessStateGraph) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph");
