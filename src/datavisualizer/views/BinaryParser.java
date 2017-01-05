@@ -24,14 +24,11 @@ public class BinaryParser {
 			currDouble = Double.longBitsToDouble(Long.reverseBytes(input.readLong()));
 				
 			if(count % 3 == 0){
-				System.out.print("time: " + currDouble + " ");
 				currStateInfo = new StateInfo();
 				currStateInfo.setTimestamp(currDouble);
 			}else if(count % 3 == 1){
-				System.out.print("state: " + currDouble + " ");
 				currStateInfo.setState(currDouble);
 			}else{
-				System.out.println("id: " + currDouble);
 				if(selectedIds.contains(currDouble)){
 					if (stateMap.containsKey(currDouble)){
 						stateMap.get(currDouble).add(currStateInfo);
