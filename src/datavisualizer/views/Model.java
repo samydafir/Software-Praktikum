@@ -16,10 +16,9 @@ public class Model {
 	private BinaryParser binaryParser;
 
 	
-	public Model(String xmlPath) throws ParserConfigurationException, SAXException, IOException{
-		xmlParser = new XmlParser(xmlPath, ".*(Core\\_c[0-9]*).*");
+	public Model() throws ParserConfigurationException, SAXException, IOException{
+		xmlParser = new XmlParser();
 		binaryParser = new BinaryParser();
-		xmlParser.parse();
 	}
 	
 	public ArrayList<StateInfo> getStates(ArrayList<Double> selectedTasks){
@@ -27,9 +26,18 @@ public class Model {
 	}
 	
 
-	public void parseBinaries(String path, Set<Double> selectedIds){
+	public void parseXml(String inputPath){
 		try {
-			binaryParser.parseBinary(path, selectedIds);
+			xmlParser.parse(inputPath, ".*(Core\\_c[0-9]*).*");
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			// TODO HANDLE EXCEPTIONS
+			e.printStackTrace();
+		}
+		
+	}
+	public void parseBinaries(String[] paths, Set<Double> selectedIds){
+		try {
+			binaryParser.parseBinary(paths, selectedIds);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

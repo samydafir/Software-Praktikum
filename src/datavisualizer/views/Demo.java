@@ -10,8 +10,8 @@ import org.xml.sax.SAXException;
 public class Demo {
 
 	public static void main(String[] args) throws ParserConfigurationException, SAXException, IOException {
-		XmlParser x = new XmlParser("data/platformModel.xml", ".*(Core\\_c[0-9]*).*");
-		x.parse();
+		XmlParser x = new XmlParser();
+		x.parse("data/platformModel.xml", ".*(Core\\_c[0-9]*).*");
 		for(Entry<String, TaskInfo> a: x.getTaskMap().entrySet()){
 			System.out.println(a.getKey() + " -> " + a.getValue().toString());
 		}

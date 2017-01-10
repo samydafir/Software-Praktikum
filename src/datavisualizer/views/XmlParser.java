@@ -11,21 +11,19 @@ import java.util.regex.Pattern;
 
 public class XmlParser {
 	
-	private Node root;
 	private Pattern pattern;
 	private String currCoreName;
 	private HashMap<String, TaskInfo> taskMap;
 	
-	public XmlParser(String inputPath, String nodeSelectionRegex) throws ParserConfigurationException, SAXException, IOException{
+	public XmlParser(){
 		taskMap = new HashMap<>();
-		Document xmlDoc = createDoc(inputPath);
-		Element root = xmlDoc.getDocumentElement();
-		this.root = root;
-		pattern = Pattern.compile(nodeSelectionRegex);
 		
 	}
 
-	public void parse(){
+	public void parse(String inputPath, String nodeSelectionRegex) throws FileNotFoundException, ParserConfigurationException, SAXException, IOException{
+		pattern = Pattern.compile(nodeSelectionRegex);
+		Document xmlDoc = createDoc(inputPath);
+		Element root = xmlDoc.getDocumentElement();
 		findCores(root);
 	}
 	

@@ -41,7 +41,7 @@ public class ControlView extends ViewPart {
 	 * The constructor.
 	 */
 	public ControlView() throws ParserConfigurationException, SAXException, IOException {
-		model = new Model("E:\\OneDrive - stud.sbg.ac.at\\University\\WS16\\Software Praktikum\\Software-Praktikum\\data\\platformModel.xml");
+		model = new Model();
 	}
 
 	/**
@@ -54,12 +54,20 @@ public class ControlView extends ViewPart {
 		parent.setLayout(rl);
 		
 		is = new InputSelection(parent);
+		Button start = new Button(parent, SWT.PUSH);
+		start.setLayoutData(new RowData(100,33));
+		start.setText("Start");
+		start.addListener(SWT.Selection, new Listener() {
+			public void handleEvent(Event e){
+				model.parseXml(is.getXmlFilePath());
+		  		viewer.setInput(model.getTaskInfo());
+		      }
+		});
 		
+    	pt = new ProcessTable(parent, 1, model);
+  		viewer = pt.getViewer();
 		
-		pt = new ProcessTable(parent, 1, model);
-		viewer = pt.getViewer();
-		
-		createButtons(parent);
+		createButtons(parent);		
 		
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "DataVisualizer.viewer");
 		getSite().setSelectionProvider(viewer);
@@ -119,16 +127,23 @@ public class ControlView extends ViewPart {
 	      }
 	    }
 	    
-	    model.parseBinaries("E:\\OneDrive - stud.sbg.ac.at\\University\\WS16\\Software Praktikum\\Software-Praktikum\\data\\Tasks_Core_c0.vdt", selectedIds);
+	    if(is.getBinaryFiles() == null || is.getBinaryFiles().length < 1)
+	    	return;
+	    
+	    model.parseBinaries(is.getBinaryFiles(), selectedIds);
 	    stateMap = model.getStateMap();
 
+	    
+	    TreeSet<TraceInfo> tempSet = new TreeSet<>();
 	    for(TraceInfo currInfo: traceInfo){
 	    	if(stateMap.containsKey(currInfo.getId())){
-	    		currInfo.setStates(stateMap.get(currInfo.getId()));	    		
+	    		currInfo.setStates(stateMap.get(currInfo.getId()));
+	    		tempSet.add(currInfo);
 	    	}
 	    }
-
+	    traceInfo = tempSet;
 	    
+	    //Just for testing
 	    for(TraceInfo currInfo: traceInfo)
 	    	System.out.println(currInfo.toString());
 	  

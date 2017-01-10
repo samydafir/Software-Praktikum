@@ -5,7 +5,7 @@ import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -17,11 +17,15 @@ public class ProcessTable{
 	public ProcessTable(Composite parent, int style, Model model) {
 		
 
-		parent.setLayout(new RowLayout());
+		RowLayout layout = new RowLayout();
+		layout.fill = true;
+		parent.setLayout(layout);
 		Composite comp = new Composite(parent, SWT.BORDER);
-		comp.setLayout(new FillLayout());
+		comp.setLayout(layout);
         viewer = new TableViewer(comp, SWT.V_SCROLL | SWT.CHECK | SWT.MULTI | SWT.H_SCROLL | SWT.FILL);
 		final Table table = viewer.getTable();
+		table.setLayout(new RowLayout());
+		table.setLayoutData(new RowData(500,200));
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -70,7 +74,7 @@ public class ProcessTable{
 		});
 		
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		viewer.setInput(model.getTaskInfo());
+		//viewer.setInput(model.getTaskInfo());
 		viewer.setLabelProvider(new TaskViewLabelProvider());
 	
 	}

@@ -1,5 +1,6 @@
 package datavisualizer.views;
 
+import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
@@ -13,6 +14,9 @@ import org.eclipse.swt.widgets.Text;
 
 public class InputSelection {
 	
+	private String xmlFilePath;
+	private String[] binaryFiles;
+
 	public InputSelection(Composite parent){
 
 		Shell fileDialog = new Shell();
@@ -31,22 +35,40 @@ public class InputSelection {
 		      public void handleEvent(Event e){
 		    	  FileDialog dialog = new FileDialog(fileDialog, SWT.OPEN);
 		    	   dialog.setFilterExtensions(new String [] {"*.*"});
-		    	   xmlFile.setText(dialog.open());
+		    	   String tempLabel = dialog.open();
+		    	   xmlFile.setText(tempLabel);
+		    	   xmlFilePath = tempLabel;
+		    	   
 		      }
 		});
-		Text binaryFile = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		Text binaryFile = new Text(parent, SWT.WRAP | SWT.BORDER);
 		binaryFile.setLayoutData(new RowData(200, 30));
 		Button  chooseBinary = new Button(parent, SWT.PUSH);
 		chooseBinary.setText("Choose Binary");
 		chooseBinary.setLayoutData(new RowData(100, 33));
 		chooseBinary.addListener(SWT.Selection, new Listener() {
 		      public void handleEvent(Event e){
-		    	  FileDialog dialog = new FileDialog(fileDialog, SWT.OPEN);
+		    	  FileDialog dialog = new FileDialog(fileDialog, SWT.MULTI);
 		    	   dialog.setFilterExtensions(new String [] {"*.*"});
-		    	   binaryFile.setText(dialog.open());
+		    	   String firstFile = dialog.open();
+		    	   if(firstFile != null){
+		    		   binaryFiles = dialog.getFileNames();
+		    	   }
+		    	   for(int i = 0; i < binaryFiles.length; i++){
+		    		   binaryFiles[i] = dialog.getFilterPath() + "" + File.separator + "" + binaryFiles[i];
+		    		   binaryFile.setText(binaryFile.getText() + " \n" + binaryFiles[i]);
+		    	   }	    
 		      }
 		});
 		
+	}
+	
+	public String getXmlFilePath() {
+		return xmlFilePath;
+	}
+
+	public String[] getBinaryFiles() {
+		return binaryFiles;
 	}
 
 }

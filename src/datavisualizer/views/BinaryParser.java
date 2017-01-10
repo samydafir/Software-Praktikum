@@ -12,36 +12,41 @@ public class BinaryParser {
 
 	private HashMap<Double, ArrayList<StateInfo>> stateMap = new HashMap<>();
 
-	public void parseBinary(String path, Set<Double> selectedIds) throws IOException{
+	public void parseBinary(String[] paths, Set<Double> selectedIds) throws IOException{
 		
-		DataInputStream input = new DataInputStream(new FileInputStream(path));
-		
-		int count = 0;
+		int count;
 		double currDouble;
 		StateInfo currStateInfo = null;
+		DataInputStream input;
 		
-		while(input.available() > 0){
-			currDouble = Double.longBitsToDouble(Long.reverseBytes(input.readLong()));
+		for(String currFile: paths){
+			input = new DataInputStream(new FileInputStream(currFile));
+			
+			count = 0;
+		
+			while(input.available() > 0){
+				currDouble = Double.longBitsToDouble(Long.reverseBytes(input.readLong()));
 				
-			if(count % 3 == 0){
-				currStateInfo = new StateInfo();
-				currStateInfo.setTimestamp(currDouble);
-			}else if(count % 3 == 1){
-				currStateInfo.setState(currDouble);
-			}else{
-				if(selectedIds.contains(currDouble)){
-					if (stateMap.containsKey(currDouble)){
-						stateMap.get(currDouble).add(currStateInfo);
-					}else{
-						ArrayList<StateInfo> states = new ArrayList<>();
-						states.add(currStateInfo);
-						stateMap.put(currDouble, states);
+				if(count % 3 == 0){
+					currStateInfo = new StateInfo();
+					currStateInfo.setTimestamp(currDouble);
+				}else if(count % 3 == 1){
+					currStateInfo.setState(currDouble);
+				}else{
+					if(selectedIds.contains(currDouble)){
+						if (stateMap.containsKey(currDouble)){
+							stateMap.get(currDouble).add(currStateInfo);
+						}else{
+							ArrayList<StateInfo> states = new ArrayList<>();
+							states.add(currStateInfo);
+							stateMap.put(currDouble, states);
+						}
 					}
 				}
+				count++;
 			}
-			count++;
-		}
 		input.close();
+		}
 	}
 	
 	
