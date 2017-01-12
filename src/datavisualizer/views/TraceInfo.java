@@ -11,18 +11,23 @@ public class TraceInfo implements Comparable<TraceInfo>{
 	private ArrayList<StateInfo> states;
 
 
+	public TraceInfo(){
+		states = new ArrayList<>();
+	}
+	
 	@Override
 	public int compareTo(TraceInfo other) {
-		int diff = core.compareTo(other.getCore()); 
+		double diff = core.compareTo(other.getCore()); 
 		if(diff < 0){
 			return -1;
 		}else if(diff > 0){
 			return 1;
 		}else
+			diff = priority - other.getPriority();
 			if(diff < 0)
-				return (int) Math.floor(priority - other.getPriority());
+				return (int) Math.floor(diff);
 			else
-				return (int) Math.ceil(priority - other.getPriority());
+				return (int) Math.ceil(diff);
 	}
 
 
@@ -81,6 +86,15 @@ public class TraceInfo implements Comparable<TraceInfo>{
 		}
 		info += "\n";
 		return info;
+	}
+	
+	public double[][] getTrace(){
+		double[][] dataPoints = new double[2][states.size()];
+		for(int i = 0; i < states.size(); i++){
+			dataPoints[0][i] = states.get(i).getTimestamp();
+			dataPoints[1][i] = states.get(i).getState();
+		}
+		return dataPoints;
 	}
 
 }

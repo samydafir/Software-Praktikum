@@ -16,6 +16,7 @@ import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
 import java.util.ArrayList;
 
 import org.eclipse.draw2d.LightweightSystem;
+import org.eclipse.draw2d.geometry.Point;
 
 
 
@@ -26,19 +27,11 @@ public class ProcessStateGraph extends ViewPart {
 	 */
 	public static final String ID = "datavisualizer.views.ProcessStateGraph";
 
-	private ArrayList<Double[]> dataPoints;
+	private Model model;
 	private Canvas mainCanvas;
-	ToolbarArmedXYGraph toolbarArmedXYGraph;
-	LightweightSystem lws;
+	private ToolbarArmedXYGraph toolbarArmedXYGraph;
+	private LightweightSystem lws;
 	 
-
-/**
-	 * The constructor.
-	 */
-	public ProcessStateGraph() {
-		dataPoints = new ArrayList<>();
-		
-	}
 
 
 	public void createPartControl(Composite parent) {
@@ -60,8 +53,8 @@ public class ProcessStateGraph extends ViewPart {
 		// create a new XY Graph.
 		IXYGraph xyGraph = new XYGraph();
 		xyGraph.setTitle("Task States");
-		xyGraph.getPrimaryXAxis().setRange(0, 15);
-		xyGraph.getPrimaryYAxis().setRange(0, 10);
+		xyGraph.getPrimaryXAxis().setRange(0, 0.25);
+		xyGraph.getPrimaryYAxis().setRange(0, 5);
 		xyGraph.getPrimaryXAxis().setTitle("time");
 		xyGraph.getPrimaryYAxis().setTitle("State");
 		
@@ -70,7 +63,7 @@ public class ProcessStateGraph extends ViewPart {
 
 		// set it as the content of LightwightSystem
 		lws.setContents(toolbarArmedXYGraph);
-		
+/*	
 		// create a trace data provider, which will provide the data to the
 		// trace.
 		CircularBufferDataProvider traceDataProvider = new CircularBufferDataProvider(false);
@@ -78,22 +71,40 @@ public class ProcessStateGraph extends ViewPart {
 		traceDataProvider.setCurrentXDataArray(new double[] {0,1,2,3,3,4,5,6,7,7,8,9,10});
 		traceDataProvider.setCurrentYDataArray(new double[] {1,1,1,1,2,2,2,2,2,3,3,3,3 });
 		
-		CircularBufferDataProvider traceDataProvider1 = new CircularBufferDataProvider(false);
-		traceDataProvider1.setBufferSize(100);
-		traceDataProvider1.setCurrentXDataArray(new double[] {0,1,2,3,3,4,5,6,7,7,8,9,10});
-		traceDataProvider1.setCurrentYDataArray(new double[] {5,5,5,5,7,7,7,7,7,6,6,6,6 });
-		
 		// create the trace
 		Trace trace = new Trace("Task1", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
-		Trace trace1 = new Trace("Task2", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider1);
 
+		trace.setLocation(new Point(0,20));
+		
 		// set trace property
 		trace.setPointStyle(PointStyle.NONE);
-		trace1.setPointStyle(PointStyle.NONE);
 
 		// add the trace to xyGraph
 		xyGraph.addTrace(trace);
-		xyGraph.addTrace(trace1);
+*/		
+		CircularBufferDataProvider traceDataProvider;
+		Trace trace;
+		
+		for(TraceInfo currTraceData: model.traceInfo){
+			double[][] dataPoints = currTraceData.getTrace();
+			
+			// create a trace data provider, which will provide the data to the trace.
+			traceDataProvider = new CircularBufferDataProvider(false);
+			traceDataProvider.setBufferSize(100);
+			traceDataProvider.setCurrentXDataArray(dataPoints[0]);
+			traceDataProvider.setCurrentYDataArray(dataPoints[1]);
+			
+			// create the trace
+			trace = new Trace(currTraceData.getName(), xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
+
+			trace.setAntiAliasing(true);
+			
+			// set trace property
+			trace.setPointStyle(PointStyle.NONE);
+
+			// add the trace to xyGraph
+			xyGraph.addTrace(trace);
+		}
 
 		Display display = Display.getDefault();
 		while (!mainCanvas.isDisposed()) {
@@ -103,11 +114,9 @@ public class ProcessStateGraph extends ViewPart {
 
 	}
 	
-	public void addTrace(double[] xCoords, double[] yCoords){
-		//TODO
-		
+	public void setModel(Model model) {
+		this.model = model;
 	}
-
 }
 
 

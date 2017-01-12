@@ -108,7 +108,6 @@ public class ControlView extends ViewPart {
 
 	public void handleGraphCreation() throws PartInitException{
 		HashSet<Double> selectedIds = new HashSet<>();
-		TreeSet<TraceInfo> traceInfo = new TreeSet<>();
 		TraceInfo currTrace;
 		HashMap<Double, ArrayList<StateInfo>> stateMap;
 		TaskInfo currTask;
@@ -123,7 +122,7 @@ public class ControlView extends ViewPart {
 	    	  currTrace.setCore(currTask.getCore());
 	    	  currTrace.setName(currTask.getName());
 	    	  currTrace.setPriority(currTask.getPriority());
-	    	  traceInfo.add(currTrace);
+	    	  model.traceInfo.add(currTrace);
 	      }
 	    }
 	    
@@ -135,22 +134,18 @@ public class ControlView extends ViewPart {
 
 	    
 	    TreeSet<TraceInfo> tempSet = new TreeSet<>();
-	    for(TraceInfo currInfo: traceInfo){
+	    for(TraceInfo currInfo: model.traceInfo){
 	    	if(stateMap.containsKey(currInfo.getId())){
 	    		currInfo.setStates(stateMap.get(currInfo.getId()));
 	    		tempSet.add(currInfo);
 	    	}
 	    }
-	    traceInfo = tempSet;
-	    
-	    //Just for testing
-	    for(TraceInfo currInfo: traceInfo)
-	    	System.out.println(currInfo.toString());
-	  
+	    model.traceInfo = tempSet;
 	    
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.ProcessStateGraph");
 		if(stateGraph == null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph") instanceof ProcessStateGraph){
 			stateGraph = (ProcessStateGraph) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph");
+			stateGraph.setModel(model);
 			stateGraph.showGraph();
 		}else{
 			//stateGraph.updateGraph();

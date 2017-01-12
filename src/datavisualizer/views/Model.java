@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -14,6 +15,7 @@ public class Model {
 
 	private XmlParser xmlParser;
 	private BinaryParser binaryParser;
+	TreeSet<TraceInfo> traceInfo = new TreeSet<>();
 
 	
 	public Model() throws ParserConfigurationException, SAXException, IOException{
