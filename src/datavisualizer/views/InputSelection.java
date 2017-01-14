@@ -41,7 +41,7 @@ public class InputSelection {
 		    	   
 		      }
 		});
-		Text binaryFile = new Text(parent, SWT.WRAP | SWT.BORDER);
+		Text binaryFile = new Text(parent, SWT.MULTI | SWT.BORDER);
 		binaryFile.setLayoutData(new RowData(200, 30));
 		Button  chooseBinary = new Button(parent, SWT.PUSH);
 		chooseBinary.setText("Choose Binary");
@@ -56,7 +56,10 @@ public class InputSelection {
 		    	   }
 		    	   for(int i = 0; i < binaryFiles.length; i++){
 		    		   binaryFiles[i] = dialog.getFilterPath() + "" + File.separator + "" + binaryFiles[i];
-		    		   binaryFile.setText(binaryFile.getText() + " \n" + binaryFiles[i]);
+		    		   if(i < binaryFiles.length - 1)
+		    			   binaryFile.append(binaryFiles[i] + "\n");
+		    		   else
+		    			   binaryFile.append(binaryFiles[i]);
 		    	   }	    
 		      }
 		});

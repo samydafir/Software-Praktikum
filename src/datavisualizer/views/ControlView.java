@@ -88,16 +88,6 @@ public class ControlView extends ViewPart {
 				}
 		      }
 		  });
-		
-		Button back = new Button(parent, SWT.PUSH);
-		back.setLayoutData(new RowData(100,33));
-		back.setText("Back");
-		back.addListener(SWT.Selection, new Listener() {
-		      public void handleEvent(Event e){
-				backToInputSelection();
-		      }
-		});
-		
 	}
 	
 	
@@ -148,12 +138,7 @@ public class ControlView extends ViewPart {
 			stateGraph.setModel(model);
 			stateGraph.showGraph();
 		}else{
-			//stateGraph.updateGraph();
+			stateGraph.showGraph();
 		}
 	}
-	
-	private void backToInputSelection(){
-		
-	}
-
 }

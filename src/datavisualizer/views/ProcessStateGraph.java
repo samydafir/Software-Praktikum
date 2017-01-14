@@ -2,6 +2,7 @@ package datavisualizer.views;
 
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -13,10 +14,7 @@ import org.eclipse.nebula.visualization.xygraph.figures.ToolbarArmedXYGraph;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace.PointStyle;
 import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
-import java.util.ArrayList;
-
 import org.eclipse.draw2d.LightweightSystem;
-import org.eclipse.draw2d.geometry.Point;
 
 
 
@@ -45,7 +43,6 @@ public class ProcessStateGraph extends ViewPart {
 
 	}
 
-	
 	public void showGraph() {
 		
 		lws = new LightweightSystem(mainCanvas);
@@ -53,41 +50,46 @@ public class ProcessStateGraph extends ViewPart {
 		// create a new XY Graph.
 		IXYGraph xyGraph = new XYGraph();
 		xyGraph.setTitle("Task States");
-		xyGraph.getPrimaryXAxis().setRange(0, 0.25);
-		xyGraph.getPrimaryYAxis().setRange(0, 5);
+		xyGraph.getPrimaryXAxis().setAutoScale(true);
+		xyGraph.getPrimaryYAxis().setAutoScale(true);
 		xyGraph.getPrimaryXAxis().setTitle("time");
 		xyGraph.getPrimaryYAxis().setTitle("State");
+		xyGraph.getPrimaryXAxis().setShowMajorGrid(true);
+		xyGraph.getPrimaryYAxis().setShowMajorGrid(true);
+		xyGraph.getPrimaryXAxis().setShowMinorGrid(true);
+		xyGraph.getPrimaryXAxis().setShowMinorGrid(true);
 		
 		
 		toolbarArmedXYGraph = new ToolbarArmedXYGraph(xyGraph);
 
 		// set it as the content of LightwightSystem
 		lws.setContents(toolbarArmedXYGraph);
-/*	
-		// create a trace data provider, which will provide the data to the
-		// trace.
-		CircularBufferDataProvider traceDataProvider = new CircularBufferDataProvider(false);
-		traceDataProvider.setBufferSize(100);
-		traceDataProvider.setCurrentXDataArray(new double[] {0,1,2,3,3,4,5,6,7,7,8,9,10});
-		traceDataProvider.setCurrentYDataArray(new double[] {1,1,1,1,2,2,2,2,2,3,3,3,3 });
 		
-		// create the trace
-		Trace trace = new Trace("Task1", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
-
-		trace.setLocation(new Point(0,20));
-		
-		// set trace property
-		trace.setPointStyle(PointStyle.NONE);
-
-		// add the trace to xyGraph
-		xyGraph.addTrace(trace);
-*/		
 		CircularBufferDataProvider traceDataProvider;
 		Trace trace;
+		int count = 0;
+		String currCore = model.traceInfo.first().getCore();
 		
 		for(TraceInfo currTraceData: model.traceInfo){
-			double[][] dataPoints = currTraceData.getTrace();
 			
+			if(!currCore.equals(currTraceData.getCore())){
+				traceDataProvider = new CircularBufferDataProvider(false);
+				traceDataProvider.setBufferSize(100);
+				traceDataProvider.setCurrentXDataArray(new double[] {0,5});
+				traceDataProvider.setCurrentYDataArray(new double[] {(count + 1) * 5 - 0.5, (count + 1) * 5 - 0.5});
+				trace = new Trace("", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
+				trace.setTraceColor(new Color(null, 0, 0, 0));
+				trace.setAntiAliasing(true);
+				trace.setPointStyle(PointStyle.NONE);
+				trace.setLineWidth(1);
+				xyGraph.addTrace(trace);
+			}
+			
+			currCore = currTraceData.getCore();
+			double[][] dataPoints = currTraceData.getTrace();
+			for(int i = 0; i < dataPoints[1].length; i++){
+				dataPoints[1][i] = dataPoints[1][i] + 5 * count;
+			}
 			// create a trace data provider, which will provide the data to the trace.
 			traceDataProvider = new CircularBufferDataProvider(false);
 			traceDataProvider.setBufferSize(100);
@@ -101,10 +103,13 @@ public class ProcessStateGraph extends ViewPart {
 			
 			// set trace property
 			trace.setPointStyle(PointStyle.NONE);
-
+			
 			// add the trace to xyGraph
 			xyGraph.addTrace(trace);
+			
+			count++;
 		}
+		xyGraph.getPrimaryYAxis().setRange(0, 5 * (count + 1));
 
 		Display display = Display.getDefault();
 		while (!mainCanvas.isDisposed()) {
@@ -118,6 +123,3 @@ public class ProcessStateGraph extends ViewPart {
 		this.model = model;
 	}
 }
-
-
-
