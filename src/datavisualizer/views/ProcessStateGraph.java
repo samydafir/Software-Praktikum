@@ -14,6 +14,7 @@ import org.eclipse.nebula.visualization.xygraph.figures.ToolbarArmedXYGraph;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace.PointStyle;
 import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
+
 import org.eclipse.draw2d.LightweightSystem;
 
 
@@ -74,14 +75,14 @@ public class ProcessStateGraph extends ViewPart {
 			
 			if(!currCore.equals(currTraceData.getCore())){
 				traceDataProvider = new CircularBufferDataProvider(false);
-				traceDataProvider.setBufferSize(100);
-				traceDataProvider.setCurrentXDataArray(new double[] {0,5});
+				traceDataProvider.setBufferSize(4);
+				traceDataProvider.setCurrentXDataArray(new double[] {0,2});
 				traceDataProvider.setCurrentYDataArray(new double[] {(count + 1) * 5 - 0.5, (count + 1) * 5 - 0.5});
 				trace = new Trace("", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
 				trace.setTraceColor(new Color(null, 0, 0, 0));
 				trace.setAntiAliasing(true);
 				trace.setPointStyle(PointStyle.NONE);
-				trace.setLineWidth(1);
+				trace.setLineWidth(2);
 				xyGraph.addTrace(trace);
 			}
 			
@@ -90,9 +91,10 @@ public class ProcessStateGraph extends ViewPart {
 			for(int i = 0; i < dataPoints[1].length; i++){
 				dataPoints[1][i] = dataPoints[1][i] + 5 * count;
 			}
+
 			// create a trace data provider, which will provide the data to the trace.
 			traceDataProvider = new CircularBufferDataProvider(false);
-			traceDataProvider.setBufferSize(100);
+			traceDataProvider.setBufferSize(dataPoints[0].length + dataPoints[1].length);
 			traceDataProvider.setCurrentXDataArray(dataPoints[0]);
 			traceDataProvider.setCurrentYDataArray(dataPoints[1]);
 			
@@ -109,6 +111,7 @@ public class ProcessStateGraph extends ViewPart {
 			
 			count++;
 		}
+		
 		xyGraph.getPrimaryYAxis().setRange(0, 5 * (count + 1));
 
 		Display display = Display.getDefault();
