@@ -77,7 +77,7 @@ public class ProcessStateGraph extends ViewPart {
 				traceDataProvider = new CircularBufferDataProvider(false);
 				traceDataProvider.setBufferSize(4);
 				traceDataProvider.setCurrentXDataArray(new double[] {0,2});
-				traceDataProvider.setCurrentYDataArray(new double[] {(count + 1) * 5 - 0.5, (count + 1) * 5 - 0.5});
+				traceDataProvider.setCurrentYDataArray(new double[] {(count) * 5 - 0.5, (count) * 5 - 0.5});
 				trace = new Trace("", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
 				trace.setTraceColor(new Color(null, 0, 0, 0));
 				trace.setAntiAliasing(true);
