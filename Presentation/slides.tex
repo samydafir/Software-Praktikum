@@ -1,0 +1,100 @@
+ \documentclass{beamer}
+\usetheme{Berlin}
+\usecolortheme{beaver}
+\usepackage[ngerman]{babel}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{subfigure}
+\usepackage{moreverb}
+
+\title{Project R5: Eclipse view for task executions}
+\author[]{Samy Dafir\\Dominik Baumgartner\\ Sophie Reischl }
+\date{\today}
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Content} 
+    \tableofcontents 
+\end{frame}
+
+\section{Aufgabenstellung}
+\begin{frame}
+	\frametitle{Aufgabenstellung}
+    \begin{block}{Aufgabe:}
+	    \begin{itemize}
+		    \item Eclipse Plugin
+		    \item Daten aus Files einlesen, diese dann grafisch darstellen 
+            \item Mittels Nebula XY Graph            
+	    \end{itemize}
+    \end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{Data Files}
+    \begin{block}{Binary File:}
+	    \begin{itemize}
+		    \item Data von Typ:\\
+			\text{typedef struct monRec \{ }\\
+			\text{\qquad double timeStamp;}\\
+			\text{\qquad double value;}\\
+			\text{\qquad double ID;}\\
+			\text{\} MON\_RECORD;}\\
+		    \item Jedes file: $Tasks\_<name\_of\_core>.vdt$
+	    \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Data Files}
+	\begin{block}{HTML File:}
+			\text{<actor name="'Core\_A1"'  type="'CPUSCHEDULER"'' ID="'2"'>}\\
+			\text{\quad <itemlist type="'Task"' nrOfItems=“2"'>}\\
+			\text{\quad\quad <item name="'Task\_LET\_DRV\_TASK\_A1"'>}\\
+			\text{\quad\quad\quad <itemAttribute name="'ID"' value="'1"' />}\\
+			\text{\quad\quad\quad <property name="'Priority"' value="'10"' />}\\
+			\text{\quad\quad </item>}\\
+			\text{\quad\quad <item name="'Task\_A1\_10msT1\_LET01"'>}\\
+			\text{\quad\quad\quad <itemAttribute name="'ID"' value="'2"' />}\\
+			\text{\quad\quad\quad <property name="'Priority"' value="'5"' />}\\
+			\text{\quad\quad </item>}\\
+			\text{\quad </itemlist>}\\	
+			\text{</actor>}\\			
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{User Eingaben:}
+	\begin{block}{HTML File:}
+		\begin{itemize}
+			\item Benutzer wählt binary files und html files
+			\item Danach werden die gewünschten Tasks ausgewählt
+			\item Graph mit gewählten Tasks wird erstellt
+		\end{itemize}	
+	\end{block}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Display Output:}
+	\begin{block}{Graph:}
+		\begin{itemize}
+			\item Graph in Cores eingeteilt
+			\item Jeder Task nach Priorität in Cores eingeteilt
+			\item Benutzer kann zoomen auf der Zeitachse
+		\end{itemize}	
+	\end{block}
+\end{frame}
+\section{Implementierung}
+\begin{frame}
+	\frametitle{Implementierung:}
+	\begin{block}{}
+	\end{block}
+\end{frame}
+\begin{frame}
+\section{Beispiel}
+	\frametitle{Beispiel:}
+\begin{block}{}
+\end{block}
+\end{frame}
+\end{document}
