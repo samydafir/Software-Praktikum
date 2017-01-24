@@ -13,6 +13,7 @@ import org.eclipse.nebula.visualization.xygraph.figures.IXYGraph;
 import org.eclipse.nebula.visualization.xygraph.figures.ToolbarArmedXYGraph;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace.PointStyle;
+import org.eclipse.nebula.visualization.xygraph.figures.Trace.TraceType;
 import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
 
 import org.eclipse.draw2d.LightweightSystem;
@@ -70,6 +71,7 @@ public class ProcessStateGraph extends ViewPart {
 		Trace trace;
 		int count = 0;
 		String currCore = model.traceInfo.first().getCore();
+		String coreSeparator;
 		
 		for(TraceInfo currTraceData: model.traceInfo){
 			
@@ -78,11 +80,13 @@ public class ProcessStateGraph extends ViewPart {
 				traceDataProvider.setBufferSize(4);
 				traceDataProvider.setCurrentXDataArray(new double[] {0,2});
 				traceDataProvider.setCurrentYDataArray(new double[] {(count) * 5 - 0.5, (count) * 5 - 0.5});
-				trace = new Trace("", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
+				coreSeparator = currCore + " | " + currTraceData.getCore();
+				trace = new Trace(coreSeparator, xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
 				trace.setTraceColor(new Color(null, 0, 0, 0));
 				trace.setAntiAliasing(true);
 				trace.setPointStyle(PointStyle.NONE);
-				trace.setLineWidth(2);
+				trace.setLineWidth(3);
+				trace.setTraceType(TraceType.DASH_LINE);
 				xyGraph.addTrace(trace);
 			}
 			

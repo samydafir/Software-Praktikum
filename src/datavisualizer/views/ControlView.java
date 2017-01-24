@@ -3,7 +3,9 @@ package datavisualizer.views;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.part.*;
@@ -22,6 +24,8 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.ui.*;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 
 
 public class ControlView extends ViewPart {
@@ -50,11 +54,20 @@ public class ControlView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		
-		RowLayout rl = new RowLayout();
+		RowLayout rl = new RowLayout(SWT.VERTICAL);
 		parent.setLayout(rl);
 		
-		is = new InputSelection(parent);
-		Button start = new Button(parent, SWT.PUSH);
+		Composite titleRow = new Composite(parent, SWT.NONE);
+		titleRow.setLayout(new RowLayout(SWT.HORIZONTAL));
+		Label title = new Label(titleRow, SWT.SINGLE | SWT.BOLD);
+		title.setText("Select your files and press Start");
+		Font boldFont = new Font( title.getDisplay(), new FontData( "Arial", 14, SWT.BOLD ) );
+		title.setFont( boldFont );
+		
+		Composite firstRow = new Composite(parent, SWT.NONE | SWT.BORDER);
+		firstRow.setLayout(new RowLayout(SWT.HORIZONTAL));
+		is = new InputSelection(firstRow);
+		Button start = new Button(firstRow, SWT.PUSH);
 		start.setLayoutData(new RowData(100,33));
 		start.setText("Start");
 		start.addListener(SWT.Selection, new Listener() {
@@ -64,10 +77,12 @@ public class ControlView extends ViewPart {
 		      }
 		});
 		
-    	pt = new ProcessTable(parent, 1, model);
+		Composite secondRow = new Composite(parent, SWT.NONE | SWT.BORDER);
+		secondRow.setLayout(new RowLayout(SWT.HORIZONTAL));
+    	pt = new ProcessTable(secondRow, 1, model);
   		viewer = pt.getViewer();
 		
-		createButtons(parent);		
+		createButtons(secondRow);		
 		
 		PlatformUI.getWorkbench().getHelpSystem().setHelp(viewer.getControl(), "DataVisualizer.viewer");
 		getSite().setSelectionProvider(viewer);

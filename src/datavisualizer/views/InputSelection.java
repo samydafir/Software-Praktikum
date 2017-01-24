@@ -3,7 +3,6 @@ package datavisualizer.views;
 import java.io.File;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -20,16 +19,12 @@ public class InputSelection {
 	public InputSelection(Composite parent){
 
 		Shell fileDialog = new Shell();
-		RowLayout rl = new RowLayout();
-		rl.center = true;
-		
-		//parent.setLayout(rl);
 				
-		Text xmlFile = new Text(parent, SWT.SINGLE | SWT.BORDER);
-		xmlFile.setLayoutData(new RowData(200, 30));
-		xmlFile.setLocation(0, 50);
 		Button  chooseXml = new Button(parent, SWT.PUSH);
+		Text xmlFile = new Text(parent, SWT.SINGLE | SWT.BORDER);
+		xmlFile.setLayoutData(new RowData(200, 26));
 		chooseXml.setText("Choose XML");
+		//chooseXml.setLocation(200,0);
 		chooseXml.setLayoutData(new RowData(100, 33));
 		chooseXml.addListener(SWT.Selection, new Listener() {
 		      public void handleEvent(Event e){
@@ -41,9 +36,9 @@ public class InputSelection {
 		    	   
 		      }
 		});
-		Text binaryFile = new Text(parent, SWT.MULTI | SWT.BORDER);
-		binaryFile.setLayoutData(new RowData(200, 30));
 		Button  chooseBinary = new Button(parent, SWT.PUSH);
+		Text binaryFile = new Text(parent, SWT.MULTI | SWT.BORDER);
+		binaryFile.setLayoutData(new RowData(200, 26));
 		chooseBinary.setText("Choose Binary");
 		chooseBinary.setLayoutData(new RowData(100, 33));
 		chooseBinary.addListener(SWT.Selection, new Listener() {
