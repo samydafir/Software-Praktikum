@@ -47,6 +47,9 @@ public class ProcessStateGraph extends ViewPart {
 
 	public void showGraph() {
 		
+		if(model.traceInfo.size() < 1)
+			return;
+		
 		lws = new LightweightSystem(mainCanvas);
 		
 		// create a new XY Graph.

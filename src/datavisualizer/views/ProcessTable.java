@@ -74,9 +74,7 @@ public class ProcessTable{
 		});
 		
 		viewer.setContentProvider(ArrayContentProvider.getInstance());
-		//viewer.setInput(model.getTaskInfo());
 		viewer.setLabelProvider(new TaskViewLabelProvider());
-	
 	}
 	
 	public TableViewer getViewer() {

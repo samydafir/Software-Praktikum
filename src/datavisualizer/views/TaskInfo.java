@@ -39,7 +39,12 @@ public class TaskInfo implements Comparable<TaskInfo>{
 	
 	@Override
 	public int compareTo(TaskInfo t2) {
-		return core.compareTo(t2.getCore());
+		if (core.compareTo(t2.getCore()) > 0){
+			return 1;
+		}else if (core.compareTo(t2.getCore()) < 0){
+			return -1;
+		}
+		return (int) (id - t2.getId());
 	}
 	
 }
