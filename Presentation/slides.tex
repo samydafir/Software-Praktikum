@@ -90,8 +90,10 @@
 \begin{frame}
 	\frametitle{Implementation}
 	\begin{block}{What do we start with?}
-		xml file: task name, id, priority
-		binary files: id, states, tiestamps
+		\begin{itemize}
+		\item Xml file: task name, id, priority
+		\item Binary files: id, states, timestamps
+		\end{itemize}
 	\end{block}
 \end{frame}
 
@@ -118,11 +120,11 @@
 		\hline 
 		\textbf{Taskname} & \textbf{TaskInfo} \\ 
 		\hline 
-		Taskname 1 & id = 4, priority = 8 \\ 
+		Taskname 1 & id = 4, priority = 8, core = 1 \\ 
 		\hline 
-		Taskname 2 & id = 2, priority = 4 \\ 
+		Taskname 2 & id = 2, priority = 4, core = 0 \\ 
 		\hline 
-		Taskname 3 & id = 3, priority = 9  \\ 
+		Taskname 3 & id = 3, priority = 9, core = 1  \\ 
 		\hline 
 		...    & ...  \\ 
 		\hline 
@@ -139,7 +141,7 @@
 	\frametitle{Parse binary files}
 	\begin{block}{}
 		\begin{itemize}
-			\item Get selected ids from HashMap 
+			\item Get selected IDs from HashMap 
 			\item Go through complete binary file
 			\item Read state and timestamp info
 			\item Only record states if ID selected
@@ -170,7 +172,7 @@
 	\begin{block}{Combine State and TaskInfo}
 		\begin{itemize}
 			\item contains all relevant info
-			\item TreeMap provides instrinsic sorting
+			\item TreeSet provides instrinsic sorting
 			\item Prefill set with TaskInfo
 			\item For each entry: get States from HashMap
 		\end{itemize}
@@ -180,9 +182,9 @@
 		\hline 
 		\textbf{TraceInfo}  \\
 		\hline 
-		name1, core1, priority1, stateList1 \\
+		name1, core1, priority1, id1, stateList1 \\
 		\hline 
-		name2, core2, priority2, stateList2  \\ 
+		name2, core2, priority2, id2, stateList2  \\ 
 		\hline 
 		...  \\ 
 		\hline 
@@ -194,10 +196,11 @@
 	\begin{block}{}
 		\begin{itemize}
 			\item Traces sorted by core and priority
-			\item Traces contain states (1-4)
+			\item Traces contain states (0-3)
 			\item Iterate over tree
-			\item Calculate offset for each task
+			\item Calculate offset for each trace
 			\item Add to graph
+			\item Add separator when core changes
 		\end{itemize}
 	\end{block}
 \end{frame}
@@ -206,9 +209,9 @@
 
 
 \begin{frame}
-\section{Beispiel}
-	\frametitle{Beispiel:}
-\begin{block}{}
-\end{block}
+\section{Demo}
+	\centering
+	\huge
+	Demo
 \end{frame}
 \end{document}
