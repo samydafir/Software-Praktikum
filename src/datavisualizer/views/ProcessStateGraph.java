@@ -30,8 +30,7 @@ public class ProcessStateGraph extends ViewPart {
 	private Model model;
 	private Canvas mainCanvas;
 	private ToolbarArmedXYGraph toolbarArmedXYGraph;
-	private LightweightSystem lws;
-	 
+	private LightweightSystem lws;	 
 
 
 	public void createPartControl(Composite parent) {
@@ -67,7 +66,6 @@ public class ProcessStateGraph extends ViewPart {
 		
 		toolbarArmedXYGraph = new ToolbarArmedXYGraph(xyGraph);
 
-		// set it as the content of LightwightSystem
 		lws.setContents(toolbarArmedXYGraph);
 		
 		CircularBufferDataProvider traceDataProvider;
