@@ -116,6 +116,7 @@ public class ControlView extends ViewPart {
 		HashMap<Double, ArrayList<StateInfo>> stateMap;
 		TaskInfo currTask;
 		
+		model.traceInfo = new TreeSet<>();
 		final TableItem [] items = viewer.getTable().getItems();
 	    for (int i = 0; i < items.length; ++i) {
 	      if (items[i].getChecked()){
@@ -146,12 +147,18 @@ public class ControlView extends ViewPart {
 	    }
 	    model.traceInfo = tempSet;
 	    
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.ProcessStateGraph");
 		if(stateGraph == null && PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph") instanceof ProcessStateGraph){
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.ProcessStateGraph");
 			stateGraph = (ProcessStateGraph) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph");
 			stateGraph.setModel(model);
 			stateGraph.showGraph();
 		}else{
+			IWorkbenchPage wp=PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IViewPart myView=wp.findView("datavisualizer.views.ProcessStateGraph");
+			wp.hideView(myView);
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView("datavisualizer.views.ProcessStateGraph");
+			stateGraph = (ProcessStateGraph) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView("datavisualizer.views.ProcessStateGraph");
+			stateGraph.setModel(model);
 			stateGraph.showGraph();
 		}
 	}

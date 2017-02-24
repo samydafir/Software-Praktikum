@@ -63,6 +63,10 @@ public class ProcessStateGraph extends ViewPart {
 		xyGraph.getPrimaryXAxis().setShowMinorGrid(true);
 		xyGraph.getPrimaryXAxis().setShowMinorGrid(true);
 		
+		for(Trace currTrace: xyGraph.getPlotArea().getTraceList()){
+			xyGraph.remove(currTrace);
+		}
+		
 		
 		toolbarArmedXYGraph = new ToolbarArmedXYGraph(xyGraph);
 

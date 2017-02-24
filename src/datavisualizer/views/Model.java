@@ -15,12 +15,13 @@ public class Model {
 
 	private XmlParser xmlParser;
 	private BinaryParser binaryParser;
-	TreeSet<TraceInfo> traceInfo = new TreeSet<>();
+	TreeSet<TraceInfo> traceInfo;
 
 	
 	public Model() throws ParserConfigurationException, SAXException, IOException{
 		xmlParser = new XmlParser();
 		binaryParser = new BinaryParser();
+		traceInfo = new TreeSet<>();
 	}
 	
 	public ArrayList<StateInfo> getStates(ArrayList<Double> selectedTasks){
@@ -64,15 +65,4 @@ public class Model {
 	public HashMap<Double, ArrayList<StateInfo>> getStateMap() {
 		return binaryParser.getStateMap();
 	}
-
-
-
 }
-
-
-
-
-
-
-
-
