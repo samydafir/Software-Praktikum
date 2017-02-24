@@ -1,6 +1,5 @@
 package datavisualizer.views;
 
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
@@ -15,35 +14,55 @@ import org.eclipse.nebula.visualization.xygraph.figures.Trace;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace.PointStyle;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace.TraceType;
 import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
-
 import org.eclipse.draw2d.LightweightSystem;
 
 
-
+/**
+ * This class represents a view containing the State Graph. This is not a
+ * stand-alone class but used to display the states selected in the ControlView.
+ * @author Samy Dafir
+ * @author Sophie Reischl
+ * @author Dominik Baumgartner
+ */
 public class ProcessStateGraph extends ViewPart {
 
-	/**
-	 * The ID of the view as specified by the extension.
-	 */
+	
 	public static final String ID = "datavisualizer.views.ProcessStateGraph";
-
 	private Model model;
 	private Canvas mainCanvas;
 	private ToolbarArmedXYGraph toolbarArmedXYGraph;
 	private LightweightSystem lws;	 
 
 
+	/**
+	 * Called when the view is created.
+	 * Create and layout a Canvas as a container for the nebula 
+	 * xyGraph to be created later.
+	 */
 	public void createPartControl(Composite parent) {
 		
 		mainCanvas = new Canvas(parent, 1);
 		mainCanvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL));
 	}
 	
-
+	/**
+	 * Method is required for viewPart Extension but does not do anything.
+	 * Called when the view is opened. In our case all configuration is done
+	 * in createPArtControl and showGraph.
+	 */
 	public void setFocus() {
-
 	}
 
+	
+	/**
+	 * This method creates or refreshes the state graph
+	 * It is called whenever a graph is created or its content changed, but only if there is actually any process state info to plot.
+	 * A LightweightSystem is created as a connection between the eclipse view and nebula. Then a new xyGraph is created, configured
+	 * and added to the LightweightSystem.
+	 * The displayed data is taken from a TreeSet in the corresponding model object. Traces are intrinsically sorted by core and priority.
+	 * If a core-change is detected a separator trace is added clearly separating traces belonging to different cores.
+	 * Each trace is then added to the xyGraph
+	 */
 	public void showGraph() {
 		
 		if(model.traceInfo.size() < 1)
@@ -51,22 +70,16 @@ public class ProcessStateGraph extends ViewPart {
 		
 		lws = new LightweightSystem(mainCanvas);
 		
-		// create a new XY Graph.
 		IXYGraph xyGraph = new XYGraph();
 		xyGraph.setTitle("Task States");
 		xyGraph.getPrimaryXAxis().setAutoScale(true);
 		xyGraph.getPrimaryYAxis().setAutoScale(true);
-		xyGraph.getPrimaryXAxis().setTitle("time");
+		xyGraph.getPrimaryXAxis().setTitle("Time");
 		xyGraph.getPrimaryYAxis().setTitle("State");
 		xyGraph.getPrimaryXAxis().setShowMajorGrid(true);
 		xyGraph.getPrimaryYAxis().setShowMajorGrid(true);
 		xyGraph.getPrimaryXAxis().setShowMinorGrid(true);
 		xyGraph.getPrimaryXAxis().setShowMinorGrid(true);
-		
-		for(Trace currTrace: xyGraph.getPlotArea().getTraceList()){
-			xyGraph.remove(currTrace);
-		}
-		
 		
 		toolbarArmedXYGraph = new ToolbarArmedXYGraph(xyGraph);
 
@@ -78,8 +91,7 @@ public class ProcessStateGraph extends ViewPart {
 		String currCore = model.traceInfo.first().getCore();
 		String coreSeparator;
 		
-		for(TraceInfo currTraceData: model.traceInfo){
-			
+		for(TraceInfo currTraceData: model.traceInfo){	
 			if(!currCore.equals(currTraceData.getCore())){
 				traceDataProvider = new CircularBufferDataProvider(false);
 				traceDataProvider.setBufferSize(4);
@@ -101,21 +113,13 @@ public class ProcessStateGraph extends ViewPart {
 				dataPoints[1][i] = dataPoints[1][i] + 5 * count;
 			}
 
-			// create a trace data provider, which will provide the data to the trace.
 			traceDataProvider = new CircularBufferDataProvider(false);
 			traceDataProvider.setBufferSize(dataPoints[0].length + dataPoints[1].length);
 			traceDataProvider.setCurrentXDataArray(dataPoints[0]);
 			traceDataProvider.setCurrentYDataArray(dataPoints[1]);
-			
-			// create the trace
 			trace = new Trace(currTraceData.getName(), xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProvider);
-
 			trace.setAntiAliasing(true);
-			
-			// set trace property
 			trace.setPointStyle(PointStyle.NONE);
-			
-			// add the trace to xyGraph
 			xyGraph.addTrace(trace);
 			
 			count++;
@@ -131,6 +135,10 @@ public class ProcessStateGraph extends ViewPart {
 
 	}
 	
+	/**
+	 * Sets a model. Used to assign a model to this view
+	 * @param model model to be assigned
+	 */
 	public void setModel(Model model) {
 		this.model = model;
 	}

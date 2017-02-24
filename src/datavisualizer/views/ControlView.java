@@ -26,30 +26,33 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 
-
+/**
+ * Represents the main view of this plugin. Used to select traces to later be displayed in the state graph.
+ * @author Samy Dafir
+ * @author Sophie Reischl
+ * @author Dominik Baumgartner
+ */
 public class ControlView extends ViewPart {
 
-	/**
-	 * The ID of the view as specified by the extension.
-	 */
 	public static final String ID = "datavisualizer.views.ControlView";
-
 	private Model model;
 	private TableViewer viewer;
 	private ProcessStateGraph stateGraph;
 	private InputSelection is;
 	private ProcessTable pt;
 
-/**
-	 * The constructor.
+	/**
+	 * Constructor just creates a new Model instance
 	 */
 	public ControlView() throws ParserConfigurationException, SAXException, IOException {
 		model = new Model();
 	}
 
 	/**
-	 * This is a callback that will allow us
-	 * to create the viewer and initialise it.
+	 * Called when the view is opened. Creates all elements of the user interface such as buttons, text fields,...
+	 * Also creates elements outsourced to other classes.
+	 * Elements are inserted into composite elemts whicha re then vertically aligned.
+	 * 
 	 */
 	public void createPartControl(Composite parent) {
 		
@@ -87,6 +90,11 @@ public class ControlView extends ViewPart {
 		getSite().setSelectionProvider(viewer);
 	}
 	
+	/**
+	 * Creates the "start" button which changes into a "refresh" button when pressed once.
+	 * Called by createPartControl. This button initiates the graph creation
+	 * @param parent
+	 */
 	public void createButtons(Composite parent){
 		
 		Button display = new Button(parent, SWT.PUSH);
@@ -105,11 +113,28 @@ public class ControlView extends ViewPart {
 	}
 	
 	
+	/**
+	 * Called when view is opened. Sets focus to this view
+	 */
 	public void setFocus() {
 		viewer.getControl().setFocus();
 	}
 
-
+	/**
+	 * Called when the start/refresh button is pressed. Handles the creation of the state-graph.
+	 * - Creates a list of all selected ids and create an object for each trace. Collect traces
+	 *   in TreeSet.
+	 * - The binary files are parsed using a BinaryParser object and states and times for processes
+	 *   with the selected ids are extracted and stored in a Map in the model. If there are no files
+	 *   this method returns and does nothing -> No graph will be created.
+	 * - Data for the traces (state, time) is then extracted from the StateMap in the Model and for each
+	 *   Process all states are added to the respective TraceInfo objects in the TreeMap.
+	 * - Based on the current state of the graph (not yet created, or already there) graph creation is
+	 * 	 triggered. If the graph only needs to be refreshed, the old graph-view is first removed and a 
+	 *   new one is opened.
+	 *   
+	 * @throws PartInitException
+	 */
 	public void handleGraphCreation() throws PartInitException{
 		HashSet<Double> selectedIds = new HashSet<>();
 		TraceInfo currTrace;
