@@ -8,6 +8,12 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
+/**
+ * Parses a binary file, extracts states and stores a mapping of task-id to a list of (time, state)-tuples.
+ * @author Samy Dafir
+ * @author Sophie Reischl
+ * @author Dominik Baumgartner
+ */
 public class BinaryParser {
 
 	private HashMap<Double, ArrayList<StateInfo>> stateMap = new HashMap<>();
