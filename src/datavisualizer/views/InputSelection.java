@@ -54,7 +54,7 @@ public class InputSelection {
 		Button  chooseBinary = new Button(parent, SWT.PUSH);
 		Text binaryFile = new Text(parent, SWT.MULTI | SWT.BORDER);
 		binaryFile.setLayoutData(new RowData(200, 26));
-		chooseBinary.setText("Choose Binary");
+		chooseBinary.setText("Choose Binaries");
 		chooseBinary.setLayoutData(new RowData(100, 33));
 		chooseBinary.addListener(SWT.Selection, new Listener() {
 		      public void handleEvent(Event e){
