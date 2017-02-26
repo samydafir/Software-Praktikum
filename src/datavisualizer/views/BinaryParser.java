@@ -18,6 +18,18 @@ public class BinaryParser {
 
 	private HashMap<Double, ArrayList<StateInfo>> stateMap = new HashMap<>();
 
+	/**
+	 * This function assumes that the binary file is contains tuples of the form (timeStamp, value, id).
+	 * To extract all the info for the selected processes the whole binary file is scanned. Each tuple is
+	 * then represented by a StateInfo object which is created after every third read double is read. Info
+	 * for each tuple is read and since the id is the last entry in every tuple, a check is performed at the
+	 * end as to whether the id was even selected or not (fast since we look for Double in a Set<Double>).
+	 * If it is part of the selected id the stateInfo object is inserted into the state´Map containing a 
+	 * mapping of every process id to all its states. If the found id was not selected the object is discarded
+	 * (not inserted into the map).
+	 * @param paths paths to all binary files to parse
+	 * @param selectedIds Ids od processes selected from the xml File
+	 */
 	public void parseBinary(String[] paths, Set<Double> selectedIds) throws IOException{
 		
 		int count;
@@ -56,6 +68,9 @@ public class BinaryParser {
 	}
 	
 	
+	/**
+	 * prints a String representation of the stateMap
+	 */
 	public void printMap(){
 		for(Entry<Double, ArrayList<StateInfo>> a: stateMap.entrySet()){
 			System.out.print(a.getKey() + "::: ");
@@ -66,6 +81,9 @@ public class BinaryParser {
 		}
 	}
 	
+	/**
+	 * @return the stateMap (mapping of process ids to all that process's states)
+	 */
 	public HashMap<Double, ArrayList<StateInfo>> getStateMap() {
 		return stateMap;
 	}

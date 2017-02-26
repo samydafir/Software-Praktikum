@@ -1,5 +1,11 @@
 package datavisualizer.views;
 
+/**
+ * Represents a state (point in the graph) identified by timestamp and state.
+ * @author Samy Dafir
+ * @author Sophie Reischl
+ * @author Dominik Baumgartner
+ */
 public class StateInfo {
 	private double timestamp;
 	private double  state;

@@ -26,7 +26,13 @@ public class TraceInfo implements Comparable<TraceInfo>{
 		states = new ArrayList<>();
 	}
 	
+	
 	@Override
+	/**
+	 * Overridden compareTo method to make TraceInfo objects comparable. Primary comparison is done
+	 * through a String compare of the core names, secondary by task priority. 
+	 * @param other other TraceInfo object to compare to.
+	 */
 	public int compareTo(TraceInfo other) {
 		double diff = core.compareTo(other.getCore()); 
 		if(diff < 0){

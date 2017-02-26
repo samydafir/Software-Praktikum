@@ -81,7 +81,7 @@ public class ControlView extends ViewPart {
 		
 		Composite secondRow = new Composite(parent, SWT.NONE | SWT.BORDER);
 		secondRow.setLayout(new RowLayout(SWT.HORIZONTAL));
-    	pt = new ProcessTable(secondRow, 1, model);
+    	pt = new ProcessTable(secondRow, 1);
   		viewer = pt.getViewer();
 		
 		createButtons(secondRow);		
@@ -114,7 +114,7 @@ public class ControlView extends ViewPart {
 	
 	
 	/**
-	 * Called when view is opened. Sets focus to this view
+	 * Called when view is opened. Sets focus to this view.
 	 */
 	public void setFocus() {
 		viewer.getControl().setFocus();
@@ -132,8 +132,6 @@ public class ControlView extends ViewPart {
 	 * - Based on the current state of the graph (not yet created, or already there) graph creation is
 	 * 	 triggered. If the graph only needs to be refreshed, the old graph-view is first removed and a 
 	 *   new one is opened.
-	 *   
-	 * @throws PartInitException
 	 */
 	public void handleGraphCreation() throws PartInitException{
 		HashSet<Double> selectedIds = new HashSet<>();

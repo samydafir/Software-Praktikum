@@ -10,11 +10,29 @@ import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
+/**
+ * The Process table creates the process table used in the user interface and defines its behaviour.
+ * 
+ * @author Samy Dafir
+ * @author Sophie Reischl
+ * @author Dominik Baumgartner
+ */
 public class ProcessTable{
 
 	private TableViewer viewer;
 	
-	public ProcessTable(Composite parent, int style, Model model) {
+	/**
+	 * Creates a TableViewer and configures its layout and columns. Rows are set to be selectable
+	 * using a checkbox.
+	 * Each column is given its own LabelProvider and a certain layout (width, height,...) configured
+	 * in a way that lets each column display the required attribute from the TaskInfo object representing
+	 * each task.
+	 * At the bottom a label provider is set for the table view (the custom TaskViewLabelProvider) in order
+	 * to make the TableViewer display the info from the TaskInfo objects in the defined way.
+	 * @param parent parent Container (second row Composite) passed from ControlView at creation
+	 * @param style style
+	 */
+	public ProcessTable(Composite parent, int style) {
 		
 
 		RowLayout layout = new RowLayout();
@@ -77,12 +95,11 @@ public class ProcessTable{
 		viewer.setLabelProvider(new TaskViewLabelProvider());
 	}
 	
+	/**
+	 * @return the created TableViewer
+	 */
 	public TableViewer getViewer() {
 		return viewer;
 	}
 
 }
-
-
-
-
