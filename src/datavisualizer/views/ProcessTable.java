@@ -12,7 +12,6 @@ import org.eclipse.swt.widgets.Table;
 
 /**
  * The Process table creates the process table used in the user interface and defines its behaviour.
- * 
  * @author Samy Dafir
  * @author Sophie Reischl
  * @author Dominik Baumgartner

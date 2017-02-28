@@ -14,23 +14,22 @@ import org.eclipse.swt.widgets.Text;
 /**
  * This class contains elements which were factored out from the ControlView class to improve structuring.
  * This class is used to create the first line in the user interface (the file selection part) and hold
- * paths to all seleted and required files. The paths are returned by the corresponding getter methods.
+ * paths to all selected and required files. The paths are returned by the corresponding getter methods.
  * @author Samy Dafir
  * @author Sophie Reischl
  * @author Dominik Baumgartner
  */
 public class InputSelection {
 	
-	
 	private String xmlFilePath;
 	private String[] binaryFiles;
 
 	/**
-	 * Constructor. Does all there is to do. Creates a text fiels and a button for both xml- and
+	 * Constructor. Does all there is to do. Creates a text fields and a button for both xml- and
 	 * binary-file selection. The respective text field displays the file path after selection.
-	 * Buttons are configured to opena new window for the file selection dialog.
+	 * Buttons are configured to open a new window for the file selection dialog.
 	 * After selection the paths are stored in the respective instance variables.
-	 * @param parent first row container (Composite) passed from ControlView at initialization.
+	 * @param parent first row container (Composite) passed from ControlView at initialisation.
 	 */
 	public InputSelection(Composite parent){
 

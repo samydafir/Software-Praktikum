@@ -21,12 +21,16 @@ public class BinaryParser {
 	/**
 	 * This function assumes that the binary file is contains tuples of the form (timeStamp, value, id).
 	 * To extract all the info for the selected processes the whole binary file is scanned. Each tuple is
-	 * then represented by a StateInfo object which is created after every third read double is read. Info
+	 * then represented by a StateInfo object which is created after every third double is read. Info
 	 * for each tuple is read and since the id is the last entry in every tuple, a check is performed at the
 	 * end as to whether the id was even selected or not (fast since we look for Double in a Set<Double>).
 	 * If it is part of the selected id the stateInfo object is inserted into the state´Map containing a 
 	 * mapping of every process id to all its states. If the found id was not selected the object is discarded
 	 * (not inserted into the map).
+	 * Concerning reading double values: The values in the binary files have most likely been created with
+	 * a C based program. C and java do not share the same byte layout regarding 64 bit types. To take care
+	 * of this difference double values are read as long values, bytes are then reversed and finally the new
+	 * long value is converted to double to obtain the real double value.
 	 * @param paths paths to all binary files to parse
 	 * @param selectedIds Ids od processes selected from the xml File
 	 */

@@ -5,7 +5,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
 /**
- *  Label provider required for the table view used in the user interface (ControlView) in
+ *  Label provider required for the table viewer used in the user interface (ControlView) in
  *  order for information to be displayed correctly.
  * @author Samy Dafir
  * @author Sophie Reischl
@@ -22,11 +22,11 @@ public class TaskViewLabelProvider extends LabelProvider implements ITableLabelP
 	}
 
 	/**
-	 * Controls which column of our tableView contains which information of each task
+	 * Controls which column of our tableViewer contains which information of each task
 	 * Each column is assigned a certain attribute of our element (which is a TaskInfo object).
 	 * @param element TaskInfo object containing the information of the current task to be
 	 * inserted into the table.
-	 * @param columnIndex 
+	 * @param columnIndex column to be inserted into
 	 */
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
@@ -42,5 +42,4 @@ public class TaskViewLabelProvider extends LabelProvider implements ITableLabelP
 		}
 		return null;
 	}
-	
 }
